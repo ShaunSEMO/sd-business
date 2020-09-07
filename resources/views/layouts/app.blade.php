@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'SwayDev CMS') }}</title>
+    <title>{{ config('app.name', 'SwayDev Business Dashboard') }}</title>
 
     <!-- Scripts -->
     
