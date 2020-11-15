@@ -14,6 +14,7 @@ use App\Contact;
 use App\Social_link;
 use App\Post;
 use App\Picture;
+use App\GalleryEvent;
 use DB;
 
 use Illuminate\Http\Request;
@@ -525,17 +526,20 @@ class DashboardController extends Controller
     ---------*/
     public function gallery() {
         $pictures = Picture::all();
-        return view('dashboard.gallery', compact(['pictures']));
+        $gallery_event = GalleryEvent::all();
+        return view('dashboard.gallery', compact(['pictures', 'gallery_event']));
     }
 
-    public function createPicture()
+    public function createGallery(Request $request) {
+        return view('dashboard.gallery.createGallery');
+    }
+
+    public function addPicture($id)
     {
-        return view('dashboard.gallery.createpicture');
+        return view('dashboard.gallery.createpicture',compact(['id']));
     }
 
     public function storePicture(Request $request) {
-        
-
         if ($request->file('image')>0) {
 
             $images = $request->file('image');
@@ -543,6 +547,7 @@ class DashboardController extends Controller
             foreach($images as $image):
 
                 $picture = new Picture;
+                $picture->gallery_event_id = $request->input('gallery_id');
                 $filenameWithExt = $image->getClientOriginalName();
                 $path = $image->storeAs('public/store_img/gallery', $filenameWithExt);
                 $picture->image = 'storage/store_img/gallery/'.$image->getClientOriginalName();
@@ -554,6 +559,53 @@ class DashboardController extends Controller
             return redirect('/$d_bu$!n3$$_d@$h/gallery');
         }
 
+        return redirect('/$d_bu$!n3$$_d@$h/gallery'); 
+    }
+
+    public function storeGallery(Request $request) {
+        if (count(DB::table('gallery_events')->where('name', $request->input('gallery_name'))->get()) == 0) {
+            $gallery = new GalleryEvent;
+            $gallery->name = $request->input('gallery_name');
+            $gallery->save();
+        } else if (count(DB::table('gallery_events')->where('name', $request->input('gallery_name'))->get()) == 1) {
+            $gallery = DB::table('gallery_events')->where('name', $request->input('gallery_name'))->first();
+        }
+        
+        if ($request->file('image')>0) {
+
+            $images = $request->file('image');
+
+            foreach($images as $image):
+
+                $picture = new Picture;
+                $picture->gallery_event_id = $gallery->id;
+                $filenameWithExt = $image->getClientOriginalName();
+                $path = $image->storeAs('public/store_img/gallery', $filenameWithExt);
+                $picture->image = 'storage/store_img/gallery/'.$image->getClientOriginalName();
+                $picture->save();
+
+            endforeach;
+        }
+         else {
+            return redirect('/$d_bu$!n3$$_d@$h/gallery');
+        }
+
+        return redirect('/$d_bu$!n3$$_d@$h/gallery');
+    }
+
+    public function updateGalleryName($id, Request $request) {
+        $gallery = GalleryEvent::find($id);
+        $gallery->name = $request->input('gallery_name');
+        $gallery->save();
+        return redirect('/$d_bu$!n3$$_d@$h/gallery');
+    }
+
+    public function deleteGallery($id) {
+        $gallery = GalleryEvent::find($id);
+        foreach ($gallery->pictures as $picture) {
+            $picture->delete();
+        }
+        $gallery->delete();
         return redirect('/$d_bu$!n3$$_d@$h/gallery');
     }
 

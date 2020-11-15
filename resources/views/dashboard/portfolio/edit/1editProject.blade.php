@@ -43,7 +43,7 @@
                                     <br>
                                     {{ Form::date('date', $project->date, ['class' => 'form-control', \Carbon\Carbon::now()]) }}
                                     <br>
-                                    {{ Form::textArea('description', $project->desc, ['class' => 'form-control summary-ckeditor', 'placeholder' => 'Description']) }}
+                                    {{ Form::textArea('desc', $project->desc, ['class' => 'form-control summary-ckeditor', 'placeholder' => 'Description']) }}
                                     <br>
                                     {{ Form::submit('Save', ['class' => 'btn std-btn btn-primary']) }}
 

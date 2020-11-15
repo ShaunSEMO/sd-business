@@ -37,6 +37,8 @@
             <br>
             <input type="file" name="image[]" multiple>
         </div>
+
+        {{ Form::hidden('gallery_id', $id) }}
         
         {{ Form::submit('Post', ['class' => 'btn btn-primary']) }}
 

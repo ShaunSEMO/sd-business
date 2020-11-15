@@ -94,6 +94,10 @@ Route::delete('/$d_bu$!n3$$_d@$h/blog/{blog}', 'DashboardController@destroyPost'
 
 // GALLERY
 Route::get('/$d_bu$!n3$$_d@$h/gallery', 'DashboardController@gallery')->name('dashboardGallery');
-Route::get('/$d_bu$!n3$$_d@$h/gallery/create', 'DashboardController@createpicture')->name('createPicture');
+Route::get('/$d_bu$!n3$$_d@$h/gallery/createGallery', 'DashboardController@createGallery')->name('createGallery');
+Route::get('/$d_bu$!n3$$_d@$h/gallery/{gallery_id}/addPicture', 'DashboardController@addPicture')->name('addPicture');
+Route::post('/$d_bu$!n3$$_d@$h/gallery/storeGallery', 'DashboardController@storeGallery')->name('storeGallery');
 Route::post('/$d_bu$!n3$$_d@$h/gallery/storePicture', 'DashboardController@storePicture')->name('storePicture');
+Route::put('/$d_bu$!n3$$_d@$h/gallery/save/{gallery_name}', 'DashboardController@updateGalleryName')->name('updateGalleryName');
+Route::delete('/$d_bu$!n3$$_d@$h/wholegallery/{whole_gallery}', 'DashboardController@deleteGallery')->name('deleteGallery');
 Route::delete('/$d_bu$!n3$$_d@$h/gallery/{gallery}', 'DashboardController@deletePicture')->name('deletePicture');
